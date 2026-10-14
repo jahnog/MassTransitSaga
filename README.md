@@ -21,7 +21,9 @@ On this workstation the host is the user service `order-saga.service`. It listen
 ./scripts/status.sh
 ```
 
-`install-service.sh` publishes a Release build with the .NET 8 SDK in `~/.dotnet` and enables three user units: `docker-rootless.service`, `kafka.service` (container `masstransitsaga-kafka-1`), and `order-saga.service`. The script stops if linger is off, because without linger the units do not start at boot. Stop the saga unit before the smoke tests. Both use consumer group `order-saga` and port 5080.
+`install-service.sh` publishes a Release build with the .NET 8 SDK in `~/.dotnet` and enables four user units: `docker-rootless.service`, `kafka.service` (container `masstransitsaga-kafka-1`), `order-saga.service`, and `cosmos-tailscale.service`. The script stops if linger is off, because without linger the units do not start at boot. Stop the saga unit before the smoke tests. Both use consumer group `order-saga` and port 5080.
+
+`cosmos-tailscale.service` listens on this machine's Tailscale IPv4 address, port 8081, and forwards to the emulator on `127.0.0.1:8081`. Kafka is already published on `0.0.0.0:9092`. The public host on contentlabstudy.com reaches both through those addresses. Its process still uses `https://localhost:8081/` and `localhost:9092`, because a forwarder on that server presents them as loopback. While that public host is running, keep this workstation's `order-saga.service` stopped and disabled. A second host uses the same consumer groups and can publish the same fact twice.
 
 ```bash
 systemctl --user stop order-saga.service

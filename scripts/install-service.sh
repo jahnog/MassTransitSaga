@@ -36,9 +36,11 @@ export DOTNET_NOLOGO=1
 order_saga_render_unit "${REPO_ROOT}/systemd/docker-rootless.service" "${USER_UNIT_DIR}/${DOCKER_UNIT}"
 order_saga_render_unit "${REPO_ROOT}/systemd/kafka.service" "${USER_UNIT_DIR}/${KAFKA_UNIT}"
 order_saga_render_unit "${REPO_ROOT}/systemd/order-saga.service" "${USER_UNIT_DIR}/${ORDER_UNIT}"
+order_saga_render_unit "${REPO_ROOT}/systemd/cosmos-tailscale.service" "${USER_UNIT_DIR}/${COSMOS_TS_UNIT}"
 
 systemctl --user daemon-reload
-systemctl --user enable "${DOCKER_UNIT}" "${KAFKA_UNIT}" "${ORDER_UNIT}"
+systemctl --user enable "${DOCKER_UNIT}" "${KAFKA_UNIT}" "${ORDER_UNIT}" "${COSMOS_TS_UNIT}"
+systemctl --user restart "${COSMOS_TS_UNIT}"
 
 if systemctl --user is-active --quiet "${DOCKER_UNIT}"; then
   systemctl --user start "${KAFKA_UNIT}"

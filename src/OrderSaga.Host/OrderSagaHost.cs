@@ -21,7 +21,12 @@ public static class OrderSagaHost
             Args = args,
             ContentRootPath = AppContext.BaseDirectory,
         });
-        builder.WebHost.UseUrls(listenUrl ?? "http://localhost:5080");
+        // UseUrls writes a host setting that overrides ASPNETCORE_URLS.
+        // Callers and the workstation unit keep port 5080. Deploy sets ASPNETCORE_URLS.
+        if (listenUrl is not null)
+            builder.WebHost.UseUrls(listenUrl);
+        else if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("ASPNETCORE_URLS")))
+            builder.WebHost.UseUrls("http://localhost:5080");
 
         var cosmos = builder.Configuration.GetSection("Cosmos").Get<CosmosOptions>()
             ?? throw new InvalidOperationException("Cosmos settings are missing.");
