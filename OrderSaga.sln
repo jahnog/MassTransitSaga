@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{098A1FDA-644B-4652-BA82-C5E7E4F694CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderSaga.Contracts", "src\OrderSaga.Contracts\OrderSaga.Contracts.csproj", "{ACF1521D-A9AC-476E-B429-3125BDDCA6FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderSaga.Host", "src\OrderSaga.Host\OrderSaga.Host.csproj", "{C06D5632-FD66-4D5B-91A1-CBD79A96B153}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{44A2D5DE-3B79-44BD-AEF1-F45E24273A15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderSaga.Tests", "tests\OrderSaga.Tests\OrderSaga.Tests.csproj", "{DF86937E-6671-4E3E-AED6-D0B688BF8B42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderSaga.SmokeTests", "tests\OrderSaga.SmokeTests\OrderSaga.SmokeTests.csproj", "{9BAB73BB-F3AA-43EE-87AC-BE10912D2D54}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ACF1521D-A9AC-476E-B429-3125BDDCA6FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACF1521D-A9AC-476E-B429-3125BDDCA6FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACF1521D-A9AC-476E-B429-3125BDDCA6FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACF1521D-A9AC-476E-B429-3125BDDCA6FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C06D5632-FD66-4D5B-91A1-CBD79A96B153}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C06D5632-FD66-4D5B-91A1-CBD79A96B153}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C06D5632-FD66-4D5B-91A1-CBD79A96B153}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C06D5632-FD66-4D5B-91A1-CBD79A96B153}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF86937E-6671-4E3E-AED6-D0B688BF8B42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF86937E-6671-4E3E-AED6-D0B688BF8B42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF86937E-6671-4E3E-AED6-D0B688BF8B42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF86937E-6671-4E3E-AED6-D0B688BF8B42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BAB73BB-F3AA-43EE-87AC-BE10912D2D54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BAB73BB-F3AA-43EE-87AC-BE10912D2D54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BAB73BB-F3AA-43EE-87AC-BE10912D2D54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BAB73BB-F3AA-43EE-87AC-BE10912D2D54}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ACF1521D-A9AC-476E-B429-3125BDDCA6FD} = {098A1FDA-644B-4652-BA82-C5E7E4F694CE}
+		{C06D5632-FD66-4D5B-91A1-CBD79A96B153} = {098A1FDA-644B-4652-BA82-C5E7E4F694CE}
+		{DF86937E-6671-4E3E-AED6-D0B688BF8B42} = {44A2D5DE-3B79-44BD-AEF1-F45E24273A15}
+		{9BAB73BB-F3AA-43EE-87AC-BE10912D2D54} = {44A2D5DE-3B79-44BD-AEF1-F45E24273A15}
+	EndGlobalSection
+EndGlobal

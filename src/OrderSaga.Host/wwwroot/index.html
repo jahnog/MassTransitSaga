@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Order saga</title>
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <main>
+    <h1>Order saga</h1>
+    <form id="create-form">
+      <label for="order-number">Order number</label>
+      <input id="order-number" name="orderNumber" autocomplete="off" required>
+      <button id="create" type="submit">Create</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>State</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="orders"></tbody>
+    </table>
+    <section>
+      <h2>Sent</h2>
+      <ul id="sent"></ul>
+      <h2>Received</h2>
+      <ul id="received"></ul>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
