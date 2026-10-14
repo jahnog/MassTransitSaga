@@ -1,0 +1,22 @@
+[Unit]
+Description=Order saga
+After=network-online.target kafka.service
+Wants=network-online.target
+RequiresMountsFor=__REPO_ROOT__ __HOME__/.dotnet
+
+[Service]
+Type=simple
+WorkingDirectory=__REPO_ROOT__/artifacts/service
+Environment=DOTNET_ROOT=__HOME__/.dotnet
+Environment=PATH=__HOME__/.dotnet:/usr/bin:/bin
+Environment=DOTNET_NOLOGO=1
+Environment=DOTNET_CLI_TELEMETRY_OPTOUT=1
+Environment=ASPNETCORE_ENVIRONMENT=Production
+ExecStartPre=__REPO_ROOT__/scripts/wait-dependencies.sh
+ExecStart=__HOME__/.dotnet/dotnet __REPO_ROOT__/artifacts/service/OrderSaga.Host.dll
+Restart=always
+RestartSec=5
+TimeoutStartSec=150
+
+[Install]
+WantedBy=default.target

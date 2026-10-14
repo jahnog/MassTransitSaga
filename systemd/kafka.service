@@ -1,0 +1,17 @@
+[Unit]
+Description=Local Kafka broker
+After=docker-rootless.service
+Requires=docker-rootless.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+Environment=DOCKER_HOST=unix:///run/user/%U/docker.sock
+ExecStart=__HOME__/.local/bin/docker update --restart unless-stopped masstransitsaga-kafka-1
+ExecStart=__HOME__/.local/bin/docker start masstransitsaga-kafka-1
+ExecStop=__HOME__/.local/bin/docker update --restart no masstransitsaga-kafka-1
+ExecStop=__HOME__/.local/bin/docker stop -t 30 masstransitsaga-kafka-1
+TimeoutStartSec=60
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,23 @@
+[Unit]
+Description=Rootless Docker engine
+Documentation=https://docs.docker.com/engine/security/rootless/
+
+[Service]
+Type=notify
+NotifyAccess=all
+Environment=PATH=__HOME__/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=HOME=__HOME__
+ExecStart=__HOME__/.local/bin/dockerd-rootless.sh
+ExecReload=/bin/kill -s HUP $MAINPID
+TimeoutStartSec=60
+Restart=always
+RestartSec=2
+StartLimitBurst=3
+StartLimitIntervalSec=60
+LimitNOFILE=infinity
+LimitNPROC=infinity
+Delegate=yes
+KillMode=mixed
+
+[Install]
+WantedBy=default.target

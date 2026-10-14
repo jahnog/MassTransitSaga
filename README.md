@@ -14,19 +14,22 @@ Run one host. A second dispatcher can produce the same fact before either patch 
 
 ## Run
 
-Start the emulator and Kafka:
+On this workstation the host is the user service `order-saga.service`. It listens on `http://localhost:5080` and uses the Cosmos emulator at `https://localhost:8081/` and Kafka at `localhost:9092`. The account key in `appsettings.json` is the public emulator key. It is not a secret.
 
 ```bash
-docker compose up -d
+./scripts/install-service.sh
+./scripts/status.sh
 ```
 
-The emulator must be HTTPS. Wait until `https://localhost:8081/` answers. Data Explorer is `http://localhost:1234`. The account key in `appsettings.json` is the public emulator key. It is not a secret.
+`install-service.sh` publishes a Release build with the .NET 8 SDK in `~/.dotnet` and enables three user units: `docker-rootless.service`, `kafka.service` (container `masstransitsaga-kafka-1`), and `order-saga.service`. The script stops if linger is off, because without linger the units do not start at boot. Stop the saga unit before the smoke tests. Both use consumer group `order-saga` and port 5080.
 
 ```bash
-dotnet run --project src/OrderSaga.Host
+systemctl --user stop order-saga.service
 ```
 
-Open `http://localhost:5080`. The page reads saga state from Cosmos. Creating an order and changing its state only produce Kafka records. Sent and received events are rebuilt from Kafka.
+The page reads saga state from Cosmos. Creating an order and changing its state only produce Kafka records. Sent and received events are rebuilt from Kafka.
+
+`docker compose up` in this repo also publishes Cosmos on `8081` and Kafka on `9092`. That conflicts with the emulator service and the Kafka container while they are running. Use `dotnet run --project src/OrderSaga.Host` only when `order-saga.service` is stopped.
 
 ## Tests
 
@@ -36,7 +39,7 @@ Unit tests do not need Docker:
 dotnet test tests/OrderSaga.Tests
 ```
 
-Smoke tests need the compose stack, and they need the host to be stopped:
+Smoke tests need Cosmos and Kafka, and they need `order-saga.service` stopped:
 
 ```bash
 dotnet build tests/OrderSaga.SmokeTests
