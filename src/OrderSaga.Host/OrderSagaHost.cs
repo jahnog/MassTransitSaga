@@ -38,6 +38,11 @@ public static class OrderSagaHost
         else if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("ASPNETCORE_URLS")))
             builder.WebHost.UseUrls("http://localhost:5080");
 
+        builder.WebHost.ConfigureKestrel(options =>
+        {
+            options.Limits.MaxRequestBodySize = DemoLimits.MaxBodyBytes;
+        });
+
         var cosmos = builder.Configuration.GetSection("Cosmos").Get<CosmosOptions>()
             ?? throw new InvalidOperationException("Cosmos settings are missing.");
         cosmos.EnsureValid();
@@ -152,10 +157,13 @@ public static class OrderSagaHost
         builder.Services.AddSingleton<OrderStateReader>();
         builder.Services.AddHostedService<PendingFactDispatcher>();
 
+        DemoLimits.Create().Configure(builder.Services);
+
         var app = builder.Build();
         await EnsureContainer(cosmos);
         app.UseDefaultFiles();
         app.UseStaticFiles(StaticFiles);
+        app.UseRateLimiter();
         OrderApi.Map(app);
         return app;
     }

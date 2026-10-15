@@ -46,11 +46,12 @@
           <div>
             <label class="wl-label" for="order-number">Order number</label>
             <div class="create-row">
-              <input class="wl-input" id="order-number" name="orderNumber" autocomplete="off" required>
+              <input class="wl-input" id="order-number" name="orderNumber" maxlength="40" autocomplete="off" required>
               <button class="wl-btn wl-btn-primary" id="create" type="submit">Create</button>
             </div>
           </div>
         </form>
+        <p class="empty" id="notice" role="status" hidden></p>
       </section>
 
       <section class="wl-panel" aria-labelledby="orders-title">
