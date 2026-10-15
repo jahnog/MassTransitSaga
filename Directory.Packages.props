@@ -3,6 +3,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
+    <PackageVersion Include="coverlet.collector" Version="10.1.0" />
     <PackageVersion Include="MassTransit" Version="8.5.11" />
     <PackageVersion Include="MassTransit.Azure.Cosmos" Version="8.5.11" />
     <PackageVersion Include="MassTransit.Kafka" Version="8.5.11" />
