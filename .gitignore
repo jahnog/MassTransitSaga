@@ -153,6 +153,12 @@ coverage*.json
 coverage*.xml
 coverage*.info
 
+# ReportGenerator HTML index and Cobertura output
+artifacts/coverage/
+
+# Stryker mutation reports
+StrykerOutput/
+
 # Visual Studio code coverage results
 *.coverage
 *.coveragexml
