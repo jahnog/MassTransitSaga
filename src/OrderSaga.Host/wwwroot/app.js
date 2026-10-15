@@ -1,4 +1,5 @@
 const ordersBody = document.querySelector("#orders");
+const ordersEmpty = document.querySelector("#orders-empty");
 const sentList = document.querySelector("#sent");
 const receivedList = document.querySelector("#received");
 const orderNumberInput = document.querySelector("#order-number");
@@ -54,20 +55,42 @@ async function refresh() {
 
   polling = true;
   try {
-    const response = await fetch("/orders");
-    if (!response.ok) {
+    // Query everything first; the page is only touched once all answers are in.
+    const id = selectedId;
+    const [ordersResponse, eventsResponse] = await Promise.all([
+      fetch("/orders"),
+      id ? fetch(`/orders/${id}/events`) : null,
+    ]);
+    if (!ordersResponse.ok) {
       return;
     }
 
-    renderOrders(await response.json());
-    await renderEvents();
+    const orders = await ordersResponse.json();
+    const events = eventsResponse?.ok ? await eventsResponse.json() : null;
+
+    // No await below: the old content is replaced in one step, so no frame shows empty lists.
+    renderOrders(orders);
+    if (!id) {
+      clearEvents();
+    } else if (events && id === selectedId) {
+      renderEvents(events);
+    }
   } finally {
     polling = false;
   }
 }
 
+const stateChipClass = {
+  Submitted: "wl-chip-warn",
+  Paid: "wl-chip-warn",
+  Shipped: "wl-chip-warn",
+  Completed: "wl-chip-pass",
+  Cancelled: "wl-chip-block",
+};
+
 function renderOrders(orders) {
-  ordersBody.replaceChildren();
+  ordersEmpty.hidden = orders.length > 0;
+  const rows = [];
   for (const order of orders) {
     const row = document.createElement("tr");
     row.dataset.order = order.orderNumber ?? "";
@@ -81,46 +104,46 @@ function renderOrders(orders) {
     orderCell.textContent = order.orderNumber ?? "";
 
     const stateCell = document.createElement("td");
-    stateCell.className = "state";
-    stateCell.textContent = order.currentState ?? "";
+    const stateChip = document.createElement("span");
+    stateChip.className = `state wl-chip ${stateChipClass[order.currentState] ?? ""}`.trim();
+    stateChip.textContent = order.currentState ?? "";
+    stateCell.append(stateChip);
 
     const actions = document.createElement("td");
+    actions.className = "actions";
     for (const command of order.commands ?? []) {
       const button = document.createElement("button");
       button.type = "button";
+      button.className = "wl-btn wl-btn-ghost wl-btn-sm";
       button.dataset.command = command;
       button.textContent = command;
       actions.append(button);
     }
 
     row.append(orderCell, stateCell, actions);
-    ordersBody.append(row);
+    rows.push(row);
   }
+
+  ordersBody.replaceChildren(...rows);
 }
 
-async function renderEvents() {
-  sentList.replaceChildren();
-  receivedList.replaceChildren();
-  if (!selectedId) {
-    return;
-  }
-
-  const response = await fetch(`/orders/${selectedId}/events`);
-  if (!response.ok) {
-    return;
-  }
-
-  const events = await response.json();
+function renderEvents(events) {
   fill(sentList, events.sentToSaga);
   fill(receivedList, events.receivedFromSaga);
 }
 
+function clearEvents() {
+  sentList.replaceChildren();
+  receivedList.replaceChildren();
+}
+
 function fill(list, names) {
-  for (const name of names ?? []) {
+  const items = (names ?? []).map((name) => {
     const item = document.createElement("li");
     item.textContent = name;
-    list.append(item);
-  }
+    return item;
+  });
+  list.replaceChildren(...items);
 }
 
 refresh();

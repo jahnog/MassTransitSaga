@@ -1,38 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="wl-page">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Order saga</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#050821">
+  <meta name="description" content="One ASP.NET Core process runs an order state machine: Kafka carries commands and facts, and Cosmos DB stores the saga document.">
+  <title>An Order Saga on Kafka and Cosmos | Javier Nogueira</title>
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="site.css">
 </head>
 <body>
-  <main>
-    <h1>Order saga</h1>
-    <form id="create-form">
-      <label for="order-number">Order number</label>
-      <input id="order-number" name="orderNumber" autocomplete="off" required>
-      <button id="create" type="submit">Create</button>
-    </form>
-    <table>
-      <thead>
-        <tr>
-          <th>Order</th>
-          <th>State</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="orders"></tbody>
-    </table>
-    <section>
-      <h2>Sent</h2>
-      <ul id="sent"></ul>
-      <h2>Received</h2>
-      <ul id="received"></ul>
-    </section>
-  </main>
+  <a class="skip-link wl-btn wl-btn-primary" href="#main">Skip to content</a>
+
+  <div class="wl-shell">
+    <header class="wl-topbar">
+      <div class="wl-brand">
+        <a class="site-title" href="https://jahnog.github.io/">Javier Nogueira</a>
+        <p class="wl-subtitle">Senior software engineer · AI systems (RAG, agents) · remote</p>
+      </div>
+      <nav class="wl-nav" aria-label="Main">
+        <a href="https://jahnog.github.io/projects/">Projects</a>
+        <a href="https://jahnog.github.io/writing/">Writing</a>
+        <a href="https://jahnog.github.io/about/">About</a>
+      </nav>
+    </header>
+
+    <main class="wl-main" id="main">
+      <section class="wl-hero" aria-labelledby="hero-title">
+        <p class="wl-kicker">Portfolio</p>
+        <h1 class="wl-title wl-title-lg" id="hero-title">An Order Saga on Kafka and Cosmos</h1>
+        <p class="wl-subtitle">One ASP.NET Core process runs an order state machine: Kafka carries commands and facts, and Cosmos DB stores the saga document.</p>
+        <div class="wl-actions">
+          <a class="wl-btn wl-btn-ghost" href="https://github.com/jahnog/MassTransitSaga" rel="noopener">Source</a>
+          <a class="wl-btn wl-btn-ghost" href="https://jahnog.github.io/projects/">All projects</a>
+        </div>
+      </section>
+
+      <section class="wl-panel" aria-labelledby="create-title">
+        <h2 class="wl-title panel-title" id="create-title">New order</h2>
+        <form id="create-form">
+          <div>
+            <label class="wl-label" for="order-number">Order number</label>
+            <div class="create-row">
+              <input class="wl-input" id="order-number" name="orderNumber" autocomplete="off" required>
+              <button class="wl-btn wl-btn-primary" id="create" type="submit">Create</button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section class="wl-panel" aria-labelledby="orders-title">
+        <h2 class="wl-title panel-title" id="orders-title">Orders</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Order</th>
+                <th scope="col">State</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="orders"></tbody>
+          </table>
+        </div>
+        <p class="empty" id="orders-empty" hidden>No orders yet. Create one above.</p>
+      </section>
+
+      <section class="events" aria-label="Events for the selected order">
+        <div class="wl-panel">
+          <h2 class="wl-title panel-title">Sent</h2>
+          <ul id="sent"></ul>
+        </div>
+        <div class="wl-panel">
+          <h2 class="wl-title panel-title">Received</h2>
+          <ul id="received"></ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="wl-footer">
+      <p class="footer-links">
+        <a href="https://github.com/jahnog" rel="me noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/jntech/" rel="me noopener">LinkedIn</a>
+        <a href="https://jahnog.github.io/">Portfolio</a>
+      </p>
+      <p>&copy; 2026 Javier Nogueira.</p>
+    </footer>
+  </div>
   <script src="app.js"></script>
 </body>
 </html>
