@@ -10,4 +10,7 @@
   <ItemGroup>
     <Content Update="wwwroot/**/*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="OrderSaga.Tests" />
+  </ItemGroup>
 </Project>
