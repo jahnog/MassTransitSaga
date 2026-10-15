@@ -14,6 +14,16 @@ public static class OrderSagaHost
     public const string SagaGroup = "order-saga";
     public const string PageGroup = "order-page";
 
+    // Without Cache-Control, browsers reuse a static file for about a tenth of its age.
+    // no-cache stores the body and requires a revalidation, so the next navigation sees a deploy.
+    internal static StaticFileOptions StaticFiles { get; } = new()
+    {
+        OnPrepareResponse = context =>
+        {
+            context.Context.Response.Headers.CacheControl = "no-cache";
+        },
+    };
+
     public static async Task<WebApplication> Build(string[] args, string? listenUrl = null)
     {
         var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -145,7 +155,7 @@ public static class OrderSagaHost
         var app = builder.Build();
         await EnsureContainer(cosmos);
         app.UseDefaultFiles();
-        app.UseStaticFiles();
+        app.UseStaticFiles(StaticFiles);
         OrderApi.Map(app);
         return app;
     }
