@@ -15,6 +15,7 @@ USER_UNIT_DIR="${XDG_CONFIG_HOME:-${HOME_DIR}/.config}/systemd/user"
 ORDER_UNIT="order-saga.service"
 KAFKA_UNIT="kafka.service"
 DOCKER_UNIT="docker-rootless.service"
+COSMOS_TS_UNIT="cosmos-tailscale.service"
 LISTEN_URL="http://127.0.0.1:5080"
 
 order_saga_render_unit() {

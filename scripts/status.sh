@@ -5,7 +5,7 @@ set -euo pipefail
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lib.sh"
 
 echo "== units =="
-systemctl --user --no-pager --full status "${ORDER_UNIT}" "${KAFKA_UNIT}" "${DOCKER_UNIT}" || true
+systemctl --user --no-pager --full status "${ORDER_UNIT}" "${KAFKA_UNIT}" "${DOCKER_UNIT}" "${COSMOS_TS_UNIT}" || true
 
 echo
 echo "== health =="
